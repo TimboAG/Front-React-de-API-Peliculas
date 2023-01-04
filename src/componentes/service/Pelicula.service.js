@@ -54,6 +54,7 @@ class PeliculaService {
     // myHeaders.append("Content-Type", "application/x-www-form-urlencoded ");
 
     const myDate = new Date(form.fechaCreacion);
+    console.log(myDate);
     var form1 = JSON.stringify({
       titulo: form.titulo,
       fechaCreacion: myDate,
@@ -63,6 +64,7 @@ class PeliculaService {
       imagen: form.imagenPelicula,
       genero: [{ id: form.genero }],
     });
+    console.log(myDate);
     var fileName = form2.imagenPelicula.name;
     var formdata = new FormData();
     formdata.append("imagenPelicula", form2.imagenPelicula, fileName);

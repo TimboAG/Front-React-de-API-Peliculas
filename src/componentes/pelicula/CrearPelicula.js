@@ -128,7 +128,7 @@ const CrearPelicula = () => {
               />
             </Form.Group>
             <Button variant="dark " type="submit">
-              Dark
+              Enviar
             </Button>
           </form>
         </div>
