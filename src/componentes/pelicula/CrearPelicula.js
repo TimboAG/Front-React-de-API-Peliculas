@@ -36,8 +36,8 @@ const CrearPelicula = () => {
     setForm(misValues);
     const miValues2 = {
       ...form2,
-      // imagenPelicula: evt.target.files[0],
-      imagedata,
+      imagenPelicula: evt.target.files[0],
+      // imagedata,
     };
     setForm2(miValues2);
   }

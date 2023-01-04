@@ -46,33 +46,33 @@ class PeliculaService {
     //   mode: "no-cors",
     // };
     var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "multipart/form-data; ");
+
+    myHeaders.append("Access-Control-Allow-Origin", "* ");
+    // myHeaders.append("Content-Type", "multipart/form-data");
+    // myHeaders.append("Accept", "application/json");
     // myHeaders.append("Content-Type", "application/json ");
     // myHeaders.append("Content-Type", "application/x-www-form-urlencoded ");
 
     const myDate = new Date(form.fechaCreacion);
     var form1 = JSON.stringify({
-      id: 10,
       titulo: form.titulo,
-      eliminado: false,
       fechaCreacion: myDate,
       youtubeTrailerId: form.youtubeTrailerId,
       calificacion: form.calificacion,
       // imagenPelicula: form2.imagenPelicula,
       imagen: form.imagenPelicula,
       genero: [{ id: form.genero }],
-      personajePelicula: [],
     });
-
+    var fileName = form2.imagenPelicula.name;
     var formdata = new FormData();
-    formdata.append("imagenPelicula", form2.imagenPelicula);
+    formdata.append("imagenPelicula", form2.imagenPelicula, fileName);
     formdata.append("form1", form1);
-
     var requestOptions = {
       method: "POST",
       body: formdata,
-      header: myHeaders,
+      headers: myHeaders,
       redirect: "follow",
+      mode: "no-cors",
     };
 
     const response = await fetch(API_PELICULA.PELICULA_ADD(), requestOptions)
