@@ -18,53 +18,18 @@ class PeliculaService {
   }
 
   async agregarPelicula(form, form2) {
-    // var myHeaders = new Headers();
-    // const myDate = new Date(form.fechaCreacion);
-    // // myHeaders.append("Content-Type", "multipart/form-data; ");
-    // myHeaders.append("Content-Type", "application/json ");
-    // var data = new FormData();
-    // var imagedata = form2.imagenPelicula;
-    // data.append("imagenPelicula", imagedata);
-
-    // var form1 = JSON.stringify({
-    //   titulo: form.titulo,
-    //   fechaCreacion: myDate,
-    //   youtubeTrailerId: form.youtubeTrailerId,
-    //   calificacion: form.calificacion,
-    //   // imagenPelicula: form2.imagenPelicula,
-    //   imagen: form.imagenPelicula,
-    //   genero: [{ id: form.genero }],
-    // });
-    // data.append("form1", form1);
-
-    // console.log("esto es raw", form1);
-    // var requestOptions = {
-    //   method: "POST",
-    //   data: data,
-    //   // file: form2.imagenPelicula,
-    //   redirect: "follow",
-    //   mode: "no-cors",
-    // };
     var myHeaders = new Headers();
-
     myHeaders.append("Access-Control-Allow-Origin", "* ");
-    // myHeaders.append("Content-Type", "multipart/form-data");
-    // myHeaders.append("Accept", "application/json");
-    // myHeaders.append("Content-Type", "application/json ");
-    // myHeaders.append("Content-Type", "application/x-www-form-urlencoded ");
 
     const myDate = new Date(form.fechaCreacion);
-    console.log(myDate);
     var form1 = JSON.stringify({
       titulo: form.titulo,
       fechaCreacion: myDate,
       youtubeTrailerId: form.youtubeTrailerId,
       calificacion: form.calificacion,
-      // imagenPelicula: form2.imagenPelicula,
       imagen: form.imagenPelicula,
       genero: [{ id: form.genero }],
     });
-    console.log(myDate);
     var fileName = form2.imagenPelicula.name;
     var formdata = new FormData();
     formdata.append("imagenPelicula", form2.imagenPelicula, fileName);
@@ -81,7 +46,6 @@ class PeliculaService {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
-    console.log(response);
     return response.json();
   }
 

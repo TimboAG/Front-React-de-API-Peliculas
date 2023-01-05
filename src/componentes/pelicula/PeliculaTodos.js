@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { FETCH_IMAGEN } from "../constants/fetch/Fetch.imagen";
 import { FETCH_PELICULA } from "../constants/fetch/Fetch.pelicula";
 import CardsPeliculas from "./cards/CardsPeliculas";
 
@@ -19,7 +20,6 @@ const PeliculaTodos = () => {
     }
   };
 
-  console.log("esto es peli todos", pelicula);
   return <div> {load()}</div>;
 };
 
