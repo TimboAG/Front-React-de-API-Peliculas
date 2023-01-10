@@ -27,6 +27,6 @@ export const API_PELICULA = {
     return `${this.URL}/alta/${id}`;
   },
   PELICULA_BAJA: function (id) {
-    return `${this.URL}/alta/${id}`;
+    return `${this.URL}/baja/${id}`;
   },
 };

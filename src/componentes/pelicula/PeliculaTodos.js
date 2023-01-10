@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { FETCH_IMAGEN } from "../constants/fetch/Fetch.imagen";
 import { FETCH_PELICULA } from "../constants/fetch/Fetch.pelicula";
 import CardsPeliculas from "./cards/CardsPeliculas";
 
@@ -20,7 +19,7 @@ const PeliculaTodos = () => {
     }
   };
 
-  return <div> {load()}</div>;
+  return <div className="cardPeli"> {load()}</div>;
 };
 
 export default PeliculaTodos;

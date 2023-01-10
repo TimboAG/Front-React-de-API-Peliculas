@@ -1,17 +1,58 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import { FETCH_GENERO } from "../constants/fetch/Fetch.genero";
 import { FETCH_PELICULA } from "../constants/fetch/Fetch.pelicula";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import { API_IMAGEN } from "../constants/Api.constanst.imagen";
 import "../../assets/styles/Styles.css";
 
-const CrearPelicula = () => {
+const EditarPelicula = () => {
+  var path = window.location.pathname;
+  var numero = path.indexOf("/", 1);
+  console.log("desde editar pelicula esto es el path", path);
+  const id = path.slice(numero + 1);
+  console.log("desde editar pelicula", id);
+  const [imagen2, setImagen2] = useState(1);
+  const [pelicula, setPelicula] = useState(1);
   const fecha = new Date().toISOString().substr(0, 10);
   const [genero, setGenero] = useState(1);
   const [form, setForm] = useState();
+  const [requiredFile] = useState(false);
   const [form2, setForm2] = useState({
     imagenPelicula: "",
   });
+
+  const getPelicula = () => {
+    FETCH_PELICULA.FETCH_UNA_PELICULA(id, setPelicula);
+  };
+  const getGenero = () => {
+    FETCH_GENERO.FETCH_TODOS({ setGenero });
+  };
+  const onClickHandler = async () => {
+    var requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
+    const result = await fetch(API_IMAGEN.IMAGEN(pelicula.id), {
+      requestOptions,
+    });
+    const blob = await result.blob();
+    const url = await URL.createObjectURL(blob);
+    setImagen2(url);
+  };
+
+  useEffect(() => {
+    onClickHandler();
+    if (pelicula === 1) {
+      getPelicula();
+    }
+    if (genero === 1) {
+      getGenero();
+    }
+  }, [pelicula]);
+
+  console.log(pelicula);
 
   const handleChangeImage = (evt) => {
     const miValues2 = {
@@ -32,24 +73,15 @@ const CrearPelicula = () => {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    postPelicula(form, form2);
+    postPeliculaActualizarSinImagen(id, form);
   }
-  const getGenero = () => {
-    FETCH_GENERO.FETCH_TODOS({ setGenero });
-  };
 
-  const postPelicula = () => {
-    FETCH_PELICULA.FETCH_ADD(form, form2);
+  const postPeliculaActualizarSinImagen = () => {
+    FETCH_PELICULA.FETCH_ACTUALIZAR(id, form, imagen2);
   };
-
-  useEffect(() => {
-    if (genero === 1) {
-      getGenero();
-    }
-  }, [genero]);
 
   const load = () => {
-    if (genero !== 1) {
+    if (genero !== 1 && pelicula !== 1 && imagen2 != null) {
       return (
         <div>
           <form
@@ -57,20 +89,35 @@ const CrearPelicula = () => {
             encType="multipart / form-data"
             className="formAM"
           >
-            <h1>Agregar pelicula</h1> <br></br>
+            <a href="/peliculas" className="volver">
+              {" "}
+              <h3>X</h3>
+            </a>
+            <h1>Editar pelicula</h1> <br></br>{" "}
+            <Form.Control
+              size="lg"
+              id="id"
+              name="id"
+              disabled
+              placeholder={pelicula.id}
+              value={pelicula.id}
+            />
+            <br></br>
             <Form.Control
               size="lg"
               type="text"
-              placeholder="Titulo"
               name="titulo"
-              onChange={handleChange}
+              placeholder={pelicula.titulo}
+              onChange={(e) => {
+                handleChange(e);
+              }}
               required
             />
             <br />
             <Form.Control
               size="lg"
               type="date"
-              placeholder="Fecha"
+              placeholder={pelicula.fechaCreacion}
               max={fecha}
               name="fechaCreacion"
               onChange={handleChange}
@@ -80,7 +127,7 @@ const CrearPelicula = () => {
             <Form.Control
               size="lg"
               type="text"
-              placeholder="Link de trailer youtube"
+              placeholder={pelicula.youtubeTrailerId}
               name="youtubeTrailerId"
               onChange={handleChange}
               required
@@ -89,6 +136,7 @@ const CrearPelicula = () => {
             <Form.Select
               aria-label="Calificacion"
               name="calificacion"
+              placeholder={pelicula.calificacion}
               onChange={handleChange}
               id="calificacionSelect"
               required
@@ -105,6 +153,7 @@ const CrearPelicula = () => {
               aria-label="Genero"
               name="genero"
               onChange={handleChange}
+              placeholder={pelicula.genero}
               id="generoSelect"
               required
             >
@@ -117,26 +166,37 @@ const CrearPelicula = () => {
               ))}
             </Form.Select>
             <br />
-            <Form.Group controlId="formFile" className="mb-3">
-              <Form.Label>Portada</Form.Label>
-              <Form.Control
-                type="file"
-                name="imagenPelicula"
-                onChange={handleChangeImage}
-                accept="image/*"
-                required
-              />
-            </Form.Group>
+            {requiredFile ? (
+              <Form.Group controlId="formFile" className="mb-3">
+                <Form.Label>Portada</Form.Label>
+                <Form.Control
+                  type="file"
+                  name="imagenPelicula"
+                  onChange={handleChangeImage}
+                  accept="image/*"
+                  required
+                />
+              </Form.Group>
+            ) : (
+              <Form.Group controlId="formFile" className="mb-3">
+                <img src={imagen2} alt="Imagen" />
+              </Form.Group>
+            )}
+            <br></br>
+            <br></br>
+            <br></br>
             <Button variant="dark " type="submit">
               Enviar
             </Button>
           </form>
         </div>
       );
+    } else {
+      return <div>hola</div>;
     }
   };
 
   return <div>{load()}</div>;
 };
 
-export default CrearPelicula;
+export default EditarPelicula;

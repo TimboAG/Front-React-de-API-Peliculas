@@ -15,50 +15,38 @@ export const FETCH_PELICULA = {
     return myOneOne;
   },
 
-  // FETCH_PAGE: function ({ page, setIntoPage }) {
-  //   const myOne = RickFetch.pages(page)
-  //     .then((res) => res)
-  //     .then((res = Response) => {
-  //       setIntoPage(res.results);
-  //     })
-  //     .catch(console.log);
-  //   return myOne;
-  // },
+  FETCH_UNA_PELICULA: function (id, setPelicula) {
+    PeliculaService.porId(id)
+      .then((res) => res)
+      .then((res = Response) => {
+        setPelicula(res);
+      })
+      .catch(console.log);
+  },
+  FETCH_ACTUALIZAR: function (id, form, imagen2) {
+    const myOneOne = PeliculaService.actualizar(id, form, imagen2).catch(
+      console.log
+    );
+    return myOneOne;
+  },
 
-  // FETCH_POR_NOMBRE: function ({ texto, setPersonajeDetalle }) {
-  //   const myOne = RickFetch.buscarPorNombrePersonaje(texto)
-  //     .then((res) => res)
-  //     .then((res = Response) => {
-  //       console.log(res.results);
-  //       setPersonajeDetalle(res.results);
-  //     })
-  //     .catch(console.log);
-  //   return myOne;
-  // },
+  FETCH_ALTA: function ({ setPelicula, id }) {
+    const myOneOne = PeliculaService.alta(id)
+      .then((data) => setPelicula(data))
+      .catch(console.log);
+    return myOneOne;
+  },
+  FETCH_BAJA: function ({ setPelicula, id }) {
+    const myOneOne = PeliculaService.baja(id)
+      .then((data) => setPelicula(data))
+      .catch(console.log);
+    return myOneOne;
+  },
 
-  // FETCH_UN_PERSONAJE: function (id, setPersonajeD) {
-  //   RickFetch.unPersonaje(id)
-  //     .then((res) => res)
-  //     .then((res = Response) => {
-  //       setPersonajeD(res);
-  //     })
-  //     .catch(console.log);
-  // },
-
-  // FETCH_NUM_PAGE_EPISODIOS: function ({ setNumPage }) {
-  //   const myOneOne = RickFetch.todosLosEpisodios()
-  //     .then((data) => setNumPage(data.info.pages))
-  //     .catch(console.log);
-  //   return myOneOne;
-  // },
-
-  // FETCH_PAGE_EPISODIOS: function ({ pages, setEpisodios }) {
-  //   const myOne = RickFetch.pagesEpisodes(pages)
-  //     .then((res) => res)
-  //     .then((res = Response) => {
-  //       setEpisodios(res.results);
-  //     })
-  //     .catch(console.log);
-  //   return myOne;
-  // },
+  FETCH_ELIMINAR: function ({ setPelicula, id }) {
+    const myOneOne = PeliculaService.eliminar(id)
+      .then((data) => setPelicula(data))
+      .catch(console.log);
+    return myOneOne;
+  },
 };

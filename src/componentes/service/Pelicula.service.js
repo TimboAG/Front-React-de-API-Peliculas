@@ -49,23 +49,78 @@ class PeliculaService {
     return response.json();
   }
 
-  async actualizar(id) {
-    const response = await fetch(API_PELICULA.PELICULA_ACTUALIZAR(id));
-    console.log(response);
-    return response.json();
+  async actualizar(id, form) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const myDate = new Date(form.fechaCreacion);
+
+    var form1 = JSON.stringify({
+      titulo: form.titulo,
+      fechaCreacion: myDate,
+      youtubeTrailerId: form.youtubeTrailerId,
+      calificacion: form.calificacion,
+      imagen: form.imagenPelicula,
+      genero: [{ id: form.genero }],
+    });
+
+    var requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: form1,
+      redirect: "follow",
+    };
+
+    await fetch(API_PELICULA.PELICULA_ACTUALIZAR(id), requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
   }
-  async eliminar(id) {
-    const response = await fetch(API_PELICULA.PELICULA_ELIMINAR(id));
-    console.log(response);
-    return response.json();
-  }
+
   async alta(id) {
-    const response = await fetch(API_PELICULA.PELICULA_ALTA(id));
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    var requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: id,
+      redirect: "follow",
+    };
+    const response = await fetch(
+      API_PELICULA.PELICULA_ALTA(id),
+      requestOptions
+    );
     console.log(response);
     return response.json();
   }
   async baja(id) {
-    const response = await fetch(API_PELICULA.PELICULA_BAJA(id));
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    var requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: id,
+      redirect: "follow",
+    };
+    const response = await fetch(
+      API_PELICULA.PELICULA_BAJA(id),
+      requestOptions
+    );
+    console.log(response);
+    return response.json();
+  }
+  async eliminar(id) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    var requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      body: id,
+      redirect: "follow",
+    };
+    const response = await fetch(
+      API_PELICULA.PELICULA_ELIMINAR(id),
+      requestOptions
+    );
     console.log(response);
     return response.json();
   }

@@ -1,5 +1,6 @@
 import React from "react";
 import OneCardPelicula from "./OneCardPelicula";
+import "../../../assets/styles/Styles.css";
 
 const Cards = ({ pelicula }) => {
   const cardList = pelicula.map((myProps) => (
