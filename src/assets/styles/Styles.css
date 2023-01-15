@@ -99,3 +99,10 @@ footer {
   text-decoration: none;
   color: #616060;
 }
+.ocultar {
+  display: none;
+}
+
+.mostrar {
+  display: block;
+}

@@ -35,7 +35,7 @@ const Menu = () => {
             </Nav>
             <Nav>
               <Nav.Link href="#deets">Iniciar sesión</Nav.Link>
-              <Nav.Link eventKey={2} href="#memes">
+              <Nav.Link eventKey={2} href="/registro">
                 Registrarse
               </Nav.Link>
             </Nav>
