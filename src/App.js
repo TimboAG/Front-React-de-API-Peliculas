@@ -7,6 +7,7 @@ import PeliculaTodos from "./componentes/pelicula/PeliculaTodos";
 import CrearPelicula from "./componentes/pelicula/CrearPelicula";
 import EditarPelicula from "./componentes/pelicula/EditarPelicula";
 import { Registro } from "./componentes/Registro";
+import { Login } from "./componentes/Login";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/crear_peliculas" element={<CrearPelicula />} />
         <Route path="/editar_pelicula/:id" element={<EditarPelicula />} />
         <Route path="/registro" element={<Registro />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
       <Footer />
     </div>

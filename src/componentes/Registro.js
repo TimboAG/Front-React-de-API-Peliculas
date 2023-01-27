@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { FETCH_USUARIO } from "./constants/fetch/Fetch.usuario";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+// import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export const Registro = () => {
   const [form, setForm] = useState();
+  const [status, setStatus] = useState();
 
   function handleChange(evt) {
     const { target } = evt;
@@ -15,54 +18,38 @@ export const Registro = () => {
     };
     setForm(misValues);
   }
+  // const navigate = useNavigate();
 
   function handleSubmit(evt) {
     evt.preventDefault();
     const pass1 = document.getElementById("pass1");
     const pass2 = document.getElementById("pass2");
-
-    // Verificamos si las constraseñas no coinciden
-    if (pass1.value != pass2.value) {
+    if (pass1.value !== pass2.value) {
       document.getElementById("error").classList.add("mostrar");
       return false;
     } else {
       document.getElementById("error").classList.remove("mostrar");
-      postUsuario(form);
+      postUsuario(form, setStatus);
     }
   }
 
-  const postUsuario = () => {
-    FETCH_USUARIO.FETCH_ADD(form);
-    //     var myHeaders = new Headers();
-    // myHeaders.append("Access-Control-Allow-Origin", "* ");
-
-    // var form1 = JSON.stringify({
-    //   apellido: form.apellido,
-    //   nombre: form.nombre,
-    //   email: form.email,
-    //   username: form.username,
-    //   password: form.password,
-    // });
-    // var formdata = new FormData();
-    // formdata.append("form1", form1);
-    // var requestOptions = {
-    //   method: "POST",
-    //   body: formdata,
-    //   headers: myHeaders,
-    //   redirect: "follow",
-    //   mode: "no-cors",
-    // };
-    // const URL = "http://localhost:8081/registro";
-    // const response = await fetch(URL, requestOptions).then((response) => {
-    //   if (response.ok === true) {
-    //     console.log("es true ");
-    //   } else {
-    //     console.log("ees false ", response);
-    //     console.log("ees status ", response.status);
-    //   }
-    // });
-    // return response;
+  const postUsuario = async (form, setStatus) => {
+    await FETCH_USUARIO.FETCH_ADD(form, setStatus);
   };
+
+  useEffect(() => {
+    const errorM = document.getElementById("mensajeError");
+    const exitoM = document.getElementById("mensajeExito");
+    if (status !== undefined) {
+      if (status === 200) {
+        errorM.classList.remove("mostrar");
+        exitoM.classList.add("mostrar");
+      } else {
+        errorM.classList.add("mostrar");
+        exitoM.classList.remove("mostrar");
+      }
+    }
+  }, [status]);
 
   return (
     <div>
@@ -121,6 +108,20 @@ export const Registro = () => {
         <br />
         <div id="error" className="alert alert-danger ocultar" role="alert">
           Las Contraseñas no coinciden, vuelve a intentar !
+        </div>
+        <div
+          id="mensajeError"
+          className="alert alert-danger ocultar"
+          role="alert"
+        >
+          El mail ingresado ya se encuentra en uso. Prueba con otro
+        </div>
+        <div
+          id="mensajeExito"
+          className="alert alert-success ocultar"
+          role="alert"
+        >
+          El usuario fue registrado con exito!
         </div>
         <br />
         <Button variant="dark " type="submit">

@@ -30,11 +30,11 @@ const Menu = () => {
                   Agregar pelicula
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="/">Agrgar personaje</NavDropdown.Item>
+                <NavDropdown.Item href="/">Agregar personaje</NavDropdown.Item>
               </NavDropdown>
             </Nav>
             <Nav>
-              <Nav.Link href="#deets">Iniciar sesión</Nav.Link>
+              <Nav.Link href="/login">Iniciar sesión</Nav.Link>
               <Nav.Link eventKey={2} href="/registro">
                 Registrarse
               </Nav.Link>
