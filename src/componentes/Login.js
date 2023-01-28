@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FETCH_USUARIO } from "./constants/fetch/Fetch.usuario";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -6,6 +6,9 @@ import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const [form, setForm] = useState();
+  const [status, setStatus] = useState();
+  const [mensajeErrorStatus, setMensajeErrorStatus] = useState();
+  const [accessToken, setAccessToken] = useState();
 
   function handleChange(evt) {
     const { target } = evt;
@@ -16,18 +19,37 @@ export const Login = () => {
     };
     setForm(misValues);
   }
-  const navigate = useNavigate();
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    postUsuario(form);
+    postUsuario(form, setStatus, setMensajeErrorStatus, setAccessToken);
   }
 
   const postUsuario = () => {
-    FETCH_USUARIO.FETCH_ADD(form);
-    return navigate("/login");
+    FETCH_USUARIO.FETCH_INICIAR_SESSION(
+      form,
+      setStatus,
+      setMensajeErrorStatus,
+      setAccessToken
+    );
   };
 
+  useEffect(() => {
+    const errorM = document.getElementById("mensajeError");
+    const exitoM = document.getElementById("mensajeExito");
+    if (status !== undefined) {
+      if (status === 200) {
+        errorM.classList.remove("mostrar");
+        exitoM.classList.add("mostrar");
+      } else {
+        errorM.classList.add("mostrar");
+        document.getElementById("mensajeError").innerHTML = mensajeErrorStatus;
+        exitoM.classList.remove("mostrar");
+        setAccessToken("");
+      }
+    }
+  }, [status, mensajeErrorStatus]);
+  console.log(accessToken);
   return (
     <div>
       <form
@@ -41,7 +63,7 @@ export const Login = () => {
           size="lg"
           type="email"
           placeholder="email"
-          name="email"
+          name="usernameOrEmail"
           onChange={handleChange}
           required
         />
@@ -56,6 +78,20 @@ export const Login = () => {
           required
         />
         <br />
+        <div
+          id="mensajeError"
+          className="alert alert-danger ocultar"
+          role="alert"
+        >
+          El mail ingresado ya se encuentra en uso. Prueba con otro
+        </div>
+        <div
+          id="mensajeExito"
+          className="alert alert-success ocultar"
+          role="alert"
+        >
+          El usuario fue registrado con exito!
+        </div>
         <br />
         <Button variant="dark " type="submit">
           Enviar

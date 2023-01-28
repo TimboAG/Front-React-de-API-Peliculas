@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { FETCH_USUARIO } from "./constants/fetch/Fetch.usuario";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-// import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-export const Registro = () => {
+export const RegistroUsuario = () => {
   const [form, setForm] = useState();
   const [status, setStatus] = useState();
+  const [mensajeErrorStatus, setMensajeErrorStatus] = useState();
 
   function handleChange(evt) {
     const { target } = evt;
@@ -18,7 +18,6 @@ export const Registro = () => {
     };
     setForm(misValues);
   }
-  // const navigate = useNavigate();
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -29,27 +28,29 @@ export const Registro = () => {
       return false;
     } else {
       document.getElementById("error").classList.remove("mostrar");
-      postUsuario(form, setStatus);
+      postUsuario(form, setStatus, setMensajeErrorStatus);
     }
   }
 
-  const postUsuario = async (form, setStatus) => {
-    await FETCH_USUARIO.FETCH_ADD(form, setStatus);
+  const postUsuario = async (form, setStatus, setMensajeErrorStatus) => {
+    await FETCH_USUARIO.FETCH_REGISTRO(form, setStatus, setMensajeErrorStatus);
   };
 
   useEffect(() => {
     const errorM = document.getElementById("mensajeError");
     const exitoM = document.getElementById("mensajeExito");
     if (status !== undefined) {
-      if (status === 200) {
+      if (status === 201) {
         errorM.classList.remove("mostrar");
         exitoM.classList.add("mostrar");
       } else {
         errorM.classList.add("mostrar");
+        document.getElementById("mensajeError").innerHTML = mensajeErrorStatus;
+
         exitoM.classList.remove("mostrar");
       }
     }
-  }, [status]);
+  }, [status, mensajeErrorStatus]);
 
   return (
     <div>
@@ -62,8 +63,8 @@ export const Registro = () => {
         <Form.Control
           size="lg"
           type="text"
-          placeholder="apellido"
-          name="apellido"
+          placeholder="nombre"
+          name="name"
           onChange={handleChange}
           required
         />

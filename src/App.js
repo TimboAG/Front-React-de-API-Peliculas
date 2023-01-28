@@ -6,8 +6,8 @@ import Principal from "./componentes/Principal";
 import PeliculaTodos from "./componentes/pelicula/PeliculaTodos";
 import CrearPelicula from "./componentes/pelicula/CrearPelicula";
 import EditarPelicula from "./componentes/pelicula/EditarPelicula";
-import { Registro } from "./componentes/Registro";
 import { Login } from "./componentes/Login";
+import { RegistroUsuario } from "./componentes/RegistroUsuario";
 
 function App() {
   return (
@@ -18,7 +18,8 @@ function App() {
         <Route path="/peliculas" element={<PeliculaTodos />} />
         <Route path="/crear_peliculas" element={<CrearPelicula />} />
         <Route path="/editar_pelicula/:id" element={<EditarPelicula />} />
-        <Route path="/registro" element={<Registro />} />
+        <Route path="/registro" element={<RegistroUsuario />} />
+
         <Route path="/login" element={<Login />} />
       </Routes>
       <Footer />
