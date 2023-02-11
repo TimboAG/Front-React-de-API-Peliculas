@@ -19,8 +19,12 @@ class UsuarioService {
     const response = axios
       .post(API_USUARIO.USUARIO_INICIAR_SESSION(), form)
       .then((response) => {
-        setStatus(response.status);
-        setAccessToken(response.data.accessToken);
+        if (response.data.accessToken) {
+          setStatus(response.status);
+          setAccessToken(response.data.accessToken);
+          localStorage.setItem("user", JSON.stringify(response.data));
+        }
+        return response.data;
       })
       .catch((error) => {
         setMensajeErrorStatus(error.response.data.message);
@@ -28,6 +32,17 @@ class UsuarioService {
       });
 
     return response;
+  }
+
+  logout() {
+    localStorage.removeItem("user");
+    return axios.post(API_USUARIO.USUARIO_CERRAR_SESSION()).then((response) => {
+      return response.data;
+    });
+  }
+
+  getCurrentUser() {
+    return JSON.parse(localStorage.getItem("user"));
   }
 }
 export default new UsuarioService();

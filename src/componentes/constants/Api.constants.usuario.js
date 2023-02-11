@@ -7,4 +7,7 @@ export const API_USUARIO = {
   USUARIO_INICIAR_SESSION: function () {
     return `${this.URL}/api/auth/signin`;
   },
+  USUARIO_CERRAR_SESSION: function () {
+    return `${this.URL}/api/auth/signout`;
+  },
 };
