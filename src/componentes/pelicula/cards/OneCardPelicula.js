@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
-import ListGroup from "react-bootstrap/ListGroup";
 import { API_IMAGEN } from "../../constants/Api.constanst.imagen";
 import Editar from "../../buttonsExtras/Editar";
 import AltaBaja from "../../buttonsExtras/AltaBaja";
@@ -9,6 +8,7 @@ import "../../../assets/styles/Styles.css";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import ReactPlayer from "react-player";
+import AuthService from "../../service/Usuario.service";
 
 const OneCard = ({ myProps }) => {
   const [imagen2, setImagen2] = useState(1);
@@ -34,6 +34,15 @@ const OneCard = ({ myProps }) => {
   useEffect(() => {
     onClickHandler();
   }, []);
+
+  const [showAdminBoard, setShowAdminBoard] = useState(false);
+
+  useEffect(() => {
+    const user2 = AuthService.getCurrentUser();
+    if (user2) {
+      setShowAdminBoard(user2.roles.includes("ROLE_ADMIN"));
+    }
+  }, [setShowAdminBoard]);
 
   const estrellas = () => {
     switch (myProps.calificacion) {
@@ -89,12 +98,20 @@ const OneCard = ({ myProps }) => {
               </Modal.Body>
               <Modal.Body>Genero: {myProps.genero}</Modal.Body>
               <Modal.Footer>
-                <Editar boton={boton} id={id}></Editar>
-                <AltaBaja boton={boton} id={id} ab={ab}></AltaBaja>
-                <Eliminar boton={boton} id={id}></Eliminar>
-                <Button variant="secondary" onClick={handleClose}>
-                  Close
-                </Button>
+                {showAdminBoard ? (
+                  <>
+                    <Editar boton={boton} id={id}></Editar>
+                    <AltaBaja boton={boton} id={id} ab={ab}></AltaBaja>
+                    <Eliminar boton={boton} id={id}></Eliminar>
+                    <Button variant="secondary" onClick={handleClose}>
+                      Close
+                    </Button>
+                  </>
+                ) : (
+                  <Button variant="secondary" onClick={handleClose}>
+                    Close
+                  </Button>
+                )}
               </Modal.Footer>
             </Modal>
           </Card>
@@ -161,12 +178,20 @@ const OneCard = ({ myProps }) => {
             </Modal.Body>
             <Modal.Body>Genero: {myProps.genero}</Modal.Body>
             <Modal.Footer>
-              <Editar boton={boton} id={id}></Editar>
-              <AltaBaja boton={boton} id={id} ab={ab}></AltaBaja>
-              <Eliminar boton={boton} id={id}></Eliminar>
-              <Button variant="secondary" onClick={handleClose}>
-                Close
-              </Button>
+              {showAdminBoard ? (
+                <>
+                  <Editar boton={boton} id={id}></Editar>
+                  <AltaBaja boton={boton} id={id} ab={ab}></AltaBaja>
+                  <Eliminar boton={boton} id={id}></Eliminar>
+                  <Button variant="secondary" onClick={handleClose}>
+                    Close
+                  </Button>
+                </>
+              ) : (
+                <Button variant="secondary" onClick={handleClose}>
+                  Close
+                </Button>
+              )}
             </Modal.Footer>
           </Modal>
         </Card>
